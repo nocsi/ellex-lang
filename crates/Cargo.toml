@@ -41,13 +41,13 @@ nom = "7.1"
 
 # REPL dependencies
 rustyline = "16.0"
-crossterm = "0.27"
-ratatui = "0.23"
+crossterm = "0.29"
+ratatui = "0.29"
 
 # Web dependencies
-axum = "0.7"
-tower = "0.4"
-tower-http = { version = "0.5", features = ["fs", "trace"] }
+axum = "0.8"
+tower = "0.5"
+tower-http = { version = "0.6", features = ["fs", "trace"] }
 
 # AI dependencies
 regex = "1.10"
@@ -58,8 +58,8 @@ swc_ecma_codegen = "0.146"
 swc_ecma_parser = "22.0"
 swc_common = "0.33"
 wat = "1.0"
-walrus = "0.20"
-wasmprinter = "0.2"
+walrus = "0.23"
+wasmprinter = "0.236"
 
 # CLI dependencies
 clap = { version = "4.4", features = ["derive"] }
