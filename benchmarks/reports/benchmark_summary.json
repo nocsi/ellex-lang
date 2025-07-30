@@ -1,0 +1,24 @@
+{
+  "summary_stats": {
+    "ellex": {
+      "avg_time_ms": 21.641750202979892,
+      "std_time_ms": 1.3564374135112545,
+      "avg_memory_mb": 27.365625,
+      "avg_throughput_lps": 171837.245249686,
+      "success_rate": 0.8333333333333334,
+      "total_runs": 6,
+      "successful_runs": 5
+    }
+  },
+  "datasets": {
+    "medium_synthetic": {
+      "tsc": 2,
+      "ellex": 2
+    },
+    "small_synthetic": {
+      "ellex": 4,
+      "tsc": 4
+    }
+  },
+  "total_benchmarks": 12
+}

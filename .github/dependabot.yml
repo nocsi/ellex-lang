@@ -1,0 +1,79 @@
+version: 2
+updates:
+  # Rust dependencies
+  - package-ecosystem: "cargo"
+    directory: "/crates"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "ellex-team"
+    assignees:
+      - "ellex-team"
+    commit-message:
+      prefix: "deps(rust)"
+      include: "scope"
+    groups:
+      rust-minor-patch:
+        update-types:
+          - "minor"
+          - "patch"
+        exclude-patterns:
+          - "serde*"
+          - "tokio*"
+          - "clap*"
+      rust-dev-dependencies:
+        dependency-type: "development"
+        update-types:
+          - "minor"
+          - "patch"
+
+  # GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "10:00"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "ci"
+      include: "scope"
+
+  # Node.js dependencies (frontend)
+  - package-ecosystem: "npm"
+    directory: "/ellex_frontend"
+    schedule:
+      interval: "weekly"
+      day: "tuesday"
+      time: "09:00"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "ellex-team"
+    commit-message:
+      prefix: "deps(frontend)"
+      include: "scope"
+    groups:
+      npm-minor-patch:
+        update-types:
+          - "minor"
+          - "patch"
+        exclude-patterns:
+          - "svelte*"
+          - "rollup*"
+
+  # Mix dependencies (Elixir backend)
+  - package-ecosystem: "mix"
+    directory: "/elixir_backend"
+    schedule:
+      interval: "weekly"
+      day: "wednesday"
+      time: "09:00"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "ellex-team"
+    commit-message:
+      prefix: "deps(elixir)"
+      include: "scope"

@@ -1,0 +1,252 @@
+title: Ellex Learning Journey & User Flow
+
+# Learning Progression
+direction: right
+
+# Beginner Level
+beginner: {
+  label: "🌱 Beginner (Ages 6-10)"
+  style.fill: "#e8f5e8"
+  style.stroke: "#4caf50"
+  
+  first_steps: {
+    label: "First Steps\n• tell \"Hello!\"\n• Simple messages\n• Numbers and text"
+    shape: rectangle
+    style.fill: "#c8e6c9"
+  }
+  
+  basic_interaction: {
+    label: "Basic Interaction\n• ask \"Name?\" → name\n• Using variables\n• Simple conversations"
+    shape: rectangle
+    style.fill: "#c8e6c9"
+  }
+  
+  simple_repetition: {
+    label: "Simple Repetition\n• repeat 3 times\n• Counting games\n• Pattern creation"
+    shape: rectangle
+    style.fill: "#c8e6c9"
+  }
+  
+  first_steps -> basic_interaction -> simple_repetition
+}
+
+# Intermediate Level
+intermediate: {
+  label: "🌿 Intermediate (Ages 10-14)"
+  style.fill: "#fff3e0"
+  style.stroke: "#ff9800"
+  
+  conditions: {
+    label: "Making Decisions\n• when age is 10\n• Simple choices\n• Different paths"
+    shape: rectangle
+    style.fill: "#ffe0b2"
+  }
+  
+  functions: {
+    label: "Creating Functions\n• make greet_user\n• Reusable code\n• Organization"
+    shape: rectangle
+    style.fill: "#ffe0b2"
+  }
+  
+  turtle_art: {
+    label: "Turtle Graphics\n• move forward 100\n• Drawing shapes\n• Creative coding"
+    shape: rectangle
+    style.fill: "#ffe0b2"
+  }
+  
+  conditions -> functions -> turtle_art
+}
+
+# Advanced Level
+advanced: {
+  label: "🌳 Advanced (Ages 14-16)"
+  style.fill: "#e3f2fd"
+  style.stroke: "#2196f3"
+  
+  modal_programming: {
+    label: "Modal Programming\n• @listen, @think, @build\n• Code exploration\n• Meta-programming"
+    shape: rectangle
+    style.fill: "#bbdefb"
+  }
+  
+  ai_assistance: {
+    label: "AI Partnership\n• Code suggestions\n• Learning guidance\n• Problem solving"
+    shape: rectangle
+    style.fill: "#bbdefb"
+  }
+  
+  complex_projects: {
+    label: "Complex Projects\n• Multi-file programs\n• Games and apps\n• Creative solutions"
+    shape: rectangle
+    style.fill: "#bbdefb"
+  }
+  
+  modal_programming -> ai_assistance -> complex_projects
+}
+
+# Transition to Professional
+transition: {
+  label: "🚀 Transition (Ages 16+)"
+  style.fill: "#f3e5f5"
+  style.stroke: "#9c27b0"
+  
+  elixir_bridge: {
+    label: "Elixir Bridge\n• Pattern matching\n• Functional concepts\n• BEAM VM features"
+    shape: rectangle
+    style.fill: "#e1bee7"
+  }
+  
+  professional_tools: {
+    label: "Professional Tools\n• Version control\n• Testing frameworks\n• Deployment"
+    shape: rectangle
+    style.fill: "#e1bee7"
+  }
+  
+  career_ready: {
+    label: "Career Ready\n• Full-stack development\n• System design\n• Team collaboration"
+    shape: rectangle
+    style.fill: "#e1bee7"
+  }
+  
+  elixir_bridge -> professional_tools -> career_ready
+}
+
+# User Journey Flow
+user_flow: {
+  label: "User Experience Flow"
+  style.fill: "#fafafa"
+  style.stroke: "#757575"
+  
+  # Entry Points
+  discovery: {
+    label: "🔍 Discovery\n• Marketing page\n• School introduction\n• Parent recommendation\n• Friend sharing"
+    shape: oval
+    style.fill: "#e8eaf6"
+  }
+  
+  first_session: {
+    label: "✨ First Session\n• Interactive tutorial\n• \"Hello, world!\"\n• Immediate success\n• Fun engagement"
+    shape: oval
+    style.fill: "#e8eaf6"
+  }
+  
+  # Learning Loop
+  practice: {
+    label: "🎯 Practice\n• Guided exercises\n• Creative projects\n• Peer collaboration\n• Progress tracking"
+    shape: oval
+    style.fill: "#e0f2f1"
+  }
+  
+  challenge: {
+    label: "🧩 Challenge\n• Problem solving\n• New concepts\n• Skill building\n• Confidence growth"
+    shape: oval
+    style.fill: "#e0f2f1"
+  }
+  
+  mastery: {
+    label: "🏆 Mastery\n• Teaching others\n• Creating projects\n• Advanced features\n• Leadership"
+    shape: oval
+    style.fill: "#e0f2f1"
+  }
+  
+  # Support System
+  help_system: {
+    label: "🤝 Support System\n• AI assistant always available\n• Friendly error messages\n• Peer community\n• Educator resources"
+    shape: oval
+    style.fill: "#fff3e0"
+  }
+  
+  discovery -> first_session
+  first_session -> practice
+  practice -> challenge
+  challenge -> mastery
+  mastery -> practice: "Continuous Learning"
+  
+  help_system -> practice
+  help_system -> challenge
+  help_system -> mastery
+}
+
+# Interface Progression
+interface_journey: {
+  label: "Interface Evolution"
+  style.fill: "#f1f8e9"
+  style.stroke: "#689f38"
+  
+  visual_blocks: {
+    label: "📱 Visual Blocks\n• Drag & drop\n• Touch-friendly\n• No typing needed\n• Immediate visual feedback"
+    shape: rectangle
+    style.fill: "#dcedc8"
+  }
+  
+  guided_typing: {
+    label: "⌨️ Guided Typing\n• Auto-completion\n• Syntax highlighting\n• Error prevention\n• Learning to type code"
+    shape: rectangle
+    style.fill: "#dcedc8"
+  }
+  
+  full_editor: {
+    label: "💻 Full Editor\n• Multi-file projects\n• Advanced debugging\n• Version control\n• Professional workflow"
+    shape: rectangle
+    style.fill: "#dcedc8"
+  }
+  
+  visual_blocks -> guided_typing -> full_editor
+}
+
+# Connections between levels
+beginner.simple_repetition -> intermediate.conditions
+intermediate.turtle_art -> advanced.modal_programming
+advanced.complex_projects -> transition.elixir_bridge
+
+# Interface connections
+interface_journey.visual_blocks -> beginner.first_steps
+interface_journey.guided_typing -> intermediate.conditions
+interface_journey.full_editor -> advanced.modal_programming
+
+# User flow connections
+user_flow.first_session -> beginner.first_steps
+user_flow.practice -> intermediate.conditions
+user_flow.challenge -> advanced.modal_programming
+user_flow.mastery -> transition.elixir_bridge
+
+# Feedback loops
+practice_feedback: {
+  label: "Continuous Feedback Loop"
+  style.stroke-dash: 3
+  style.stroke: "#4caf50"
+}
+
+user_flow.practice -> practice_feedback -> user_flow.help_system
+practice_feedback -> user_flow.challenge
+
+# Success Metrics
+metrics: {
+  label: "📊 Success Metrics"
+  style.fill: "#ffebee"
+  style.stroke: "#f44336"
+  
+  engagement: {
+    label: "Engagement\n• Time spent coding\n• Projects completed\n• Return visits\n• Peer interactions"
+    shape: rectangle
+    style.fill: "#ffcdd2"
+  }
+  
+  learning: {
+    label: "Learning Progress\n• Concepts mastered\n• Complexity increase\n• Error reduction\n• Independence growth"
+    shape: rectangle
+    style.fill: "#ffcdd2"
+  }
+  
+  creativity: {
+    label: "Creative Expression\n• Original projects\n• Problem solving\n• Code sharing\n• Teaching others"
+    shape: rectangle
+    style.fill: "#ffcdd2"
+  }
+  
+  transition_readiness: {
+    label: "Transition Readiness\n• Technical skills\n• Problem-solving ability\n• Collaboration skills\n• Portfolio quality"
+    shape: rectangle
+    style.fill: "#ffcdd2"
+  }
+}

@@ -1,0 +1,15 @@
+[package]
+name = "ellex_parser"
+version.workspace = true
+authors.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Ellex parser component"
+
+[dependencies]
+ellex_core = { path = "../ellex_core" }
+serde.workspace = true
+anyhow.workspace = true
+pest = "2.7"
+pest_derive = "2.7"

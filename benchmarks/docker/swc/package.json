@@ -1,0 +1,21 @@
+{
+  "name": "swc-benchmark",
+  "version": "1.0.0",
+  "description": "SWC benchmarking environment",
+  "dependencies": {
+    "@swc/core": "^1.3.107",
+    "@swc/cli": "^0.1.65",
+    "@swc/helpers": "^0.5.5",
+    "typescript": "^5.3.3",
+    "source-map-support": "^0.5.21",
+    "clinic": "^13.0.0",
+    "pidusage": "^3.0.2",
+    "pretty-bytes": "^6.1.1",
+    "fast-glob": "^3.3.2"
+  },
+  "scripts": {
+    "benchmark": "node /scripts/swc-runner.js",
+    "profile": "clinic doctor -- node /scripts/swc-runner.js",
+    "flamegraph": "clinic flame -- node /scripts/swc-runner.js"
+  }
+}
