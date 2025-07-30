@@ -1,0 +1,78 @@
+[workspace]
+members = [
+  "ellex_core",
+  "ellex_parser",
+  "ellex_transpiler",
+  "ellex_ai",
+  "ellex_repl",
+  "ellex_web",
+  "ellex_cli",
+  "ellex_api",
+]
+resolver = "2"
+
+[workspace.package]
+version = "0.1.0"
+authors = ["nocsi <nocsi@users.noreply.github.com>"]
+edition = "2021"
+license = "MIT"
+repository = "https://github.com/nocsi/ellex-language"
+homepage = "https://ellex-lang.org"
+documentation = "https://docs.ellex-lang.org"
+description = "A natural language programming environment for kids with AI assistance"
+readme = "../README.md"
+keywords = ["programming", "education", "kids", "elixir", "natural-language"]
+categories = ["development-tools", "education"]
+
+[workspace.dependencies]
+# Core dependencies
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+anyhow = "1.0"
+thiserror = "1.0"
+tokio = { version = "1.0", features = ["full"] }
+tracing = "0.1"
+tracing-subscriber = "0.3"
+
+# Parser dependencies
+pest = "2.7"
+pest_derive = "2.7"
+nom = "7.1"
+
+# REPL dependencies
+rustyline = "12.0"
+crossterm = "0.27"
+ratatui = "0.23"
+
+# Web dependencies
+axum = "0.7"
+tower = "0.4"
+tower-http = { version = "0.5", features = ["fs", "trace"] }
+
+# AI dependencies
+regex = "1.10"
+
+# Transpiler dependencies
+swc_ecma_ast = "0.110"
+swc_ecma_codegen = "0.146"
+swc_ecma_parser = "0.141"
+swc_common = "0.33"
+wat = "1.0"
+walrus = "0.20"
+wasmprinter = "0.2"
+
+# CLI dependencies
+clap = { version = "4.4", features = ["derive"] }
+indicatif = "0.17"
+console = "0.15"
+
+[profile.dev]
+opt-level = 0
+debug = true
+
+[profile.release]
+opt-level = 3
+debug = false
+strip = true
+lto = true
+codegen-units = 1

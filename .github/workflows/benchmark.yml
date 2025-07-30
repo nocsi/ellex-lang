@@ -1,0 +1,145 @@
+name: Performance Benchmarks
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    # Run benchmarks daily at 2 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  transpiler_benchmarks:
+    name: Transpiler Performance
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        
+      - name: Cache Rust dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            crates/target/
+          key: ${{ runner.os }}-cargo-benchmark-${{ hashFiles('**/Cargo.lock') }}
+          
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          
+      - name: Install TypeScript
+        run: npm install -g typescript
+        
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          
+      - name: Install Python dependencies
+        run: |
+          pip install pandas numpy matplotlib seaborn scipy
+          
+      - name: Build Ellex
+        run: |
+          cd crates
+          cargo build --release --bin el
+          
+      - name: Run transpiler benchmarks
+        run: |
+          cd benchmarks
+          python3 scripts/dataset_manager.py create --preset small_synthetic
+          python3 scripts/dataset_manager.py create --preset medium_synthetic
+          python3 scripts/direct_benchmark.py
+          
+      - name: Generate benchmark report
+        run: |
+          cd benchmarks
+          python3 scripts/simple_analysis.py
+          
+      - name: Upload benchmark results
+        uses: actions/upload-artifact@v3
+        with:
+          name: benchmark-results-${{ github.sha }}
+          path: |
+            benchmarks/results/*.json
+            benchmarks/reports/*.json
+            benchmarks/reports/*.md
+          retention-days: 30
+          
+      - name: Comment PR with benchmark results
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require('fs');
+            const path = './benchmarks/reports/benchmark_summary.json';
+            
+            if (fs.existsSync(path)) {
+              const data = JSON.parse(fs.readFileSync(path, 'utf8'));
+              
+              let comment = '## 🚀 Transpiler Benchmark Results\n\n';
+              
+              if (data.summary_stats && data.summary_stats.ellex) {
+                const stats = data.summary_stats.ellex;
+                comment += `### Ellex Performance\n`;
+                comment += `- **Compilation Time**: ${stats.avg_time_ms.toFixed(1)}ms average\n`;
+                comment += `- **Memory Usage**: ${stats.avg_memory_mb.toFixed(1)}MB peak\n`;
+                comment += `- **Throughput**: ${Math.round(stats.avg_throughput_lps).toLocaleString()} lines/second\n`;
+                comment += `- **Success Rate**: ${(stats.success_rate * 100).toFixed(1)}%\n\n`;
+              }
+              
+              comment += `**Total Benchmarks**: ${data.total_benchmarks}\n`;
+              comment += `**Datasets Tested**: ${Object.keys(data.datasets).join(', ')}\n\n`;
+              comment += '*View detailed results in the benchmark artifacts.*';
+              
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: comment
+              });
+            }
+
+  cargo_benchmarks:
+    name: Cargo Benchmarks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            crates/target/
+          key: ${{ runner.os }}-cargo-bench-${{ hashFiles('**/Cargo.lock') }}
+          
+      - name: Run Rust benchmarks
+        run: |
+          cd crates
+          cargo bench --all-features
+          
+      - name: Upload benchmark results
+        uses: actions/upload-artifact@v3
+        with:
+          name: cargo-benchmark-results-${{ github.sha }}
+          path: crates/target/criterion/
+          retention-days: 30

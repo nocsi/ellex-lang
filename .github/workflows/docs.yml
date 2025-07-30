@@ -1,0 +1,170 @@
+name: Documentation
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  rustdoc:
+    name: Generate Rust Documentation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            crates/target/
+          key: ${{ runner.os }}-cargo-doc-${{ hashFiles('**/Cargo.lock') }}
+          
+      - name: Generate documentation
+        run: |
+          cd crates
+          cargo doc --all-features --no-deps --document-private-items
+          
+      - name: Setup GitHub Pages
+        if: github.ref == 'refs/heads/main'
+        uses: actions/configure-pages@v3
+        
+      - name: Upload documentation
+        if: github.ref == 'refs/heads/main'
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: crates/target/doc/
+          
+      - name: Deploy to GitHub Pages
+        if: github.ref == 'refs/heads/main'
+        id: deployment
+        uses: actions/deploy-pages@v2
+
+  check_docs:
+    name: Check Documentation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        
+      - name: Check documentation links
+        run: |
+          cd crates
+          cargo doc --all-features --no-deps --document-private-items
+          
+      - name: Check missing documentation
+        run: |
+          cd crates
+          cargo rustdoc --all-features -- -D missing_docs
+          
+  book:
+    name: Build Documentation Book
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Install mdBook
+        run: |
+          curl -sSL https://github.com/rust-lang/mdBook/releases/download/v0.4.36/mdbook-v0.4.36-x86_64-unknown-linux-gnu.tar.gz | tar -xz
+          chmod +x mdbook
+          sudo mv mdbook /usr/local/bin/
+          
+      - name: Create book structure
+        run: |
+          mkdir -p book/src
+          
+          cat > book/book.toml << EOF
+          [book]
+          authors = ["Ellex Team"]
+          language = "en"
+          multilingual = false
+          src = "src"
+          title = "Ellex Programming Language Guide"
+          description = "Complete guide to the Ellex natural language programming environment"
+          
+          [output.html]
+          default-theme = "navy"
+          preferred-dark-theme = "navy"
+          cname = "ellex-lang.org"
+          edit-url-template = "https://github.com/ellex-lang/ellex/edit/main/docs/{path}"
+          
+          [output.html.playground]
+          editable = true
+          copyable = true
+          copy-js = true
+          line-numbers = false
+          runnable = false
+          EOF
+          
+          cat > book/src/SUMMARY.md << EOF
+          # Summary
+          
+          [Introduction](./introduction.md)
+          
+          # User Guide
+          
+          - [Getting Started](./getting-started.md)
+          - [Language Basics](./language-basics.md)
+          - [REPL and Interactive Mode](./repl.md)
+          - [Turtle Graphics](./turtle-graphics.md)
+          - [Modal Programming](./modal-programming.md)
+          
+          # Reference
+          
+          - [Language Specification](./language-spec.md)
+          - [CLI Reference](./cli-reference.md)
+          - [API Documentation](./api.md)
+          
+          # Advanced Topics
+          
+          - [Transpiler](./transpiler.md)
+          - [Architecture](./architecture.md)
+          - [Contributing](./contributing.md)
+          EOF
+          
+          # Copy existing docs
+          cp docs/getting-started.md book/src/ || echo "# Getting Started" > book/src/getting-started.md
+          cp docs/language-specification.md book/src/language-spec.md || echo "# Language Specification" > book/src/language-spec.md
+          cp README.md book/src/introduction.md
+          
+          # Create placeholder files
+          echo "# Language Basics" > book/src/language-basics.md
+          echo "# REPL and Interactive Mode" > book/src/repl.md
+          echo "# Turtle Graphics" > book/src/turtle-graphics.md
+          echo "# Modal Programming" > book/src/modal-programming.md
+          echo "# CLI Reference" > book/src/cli-reference.md
+          echo "# API Documentation" > book/src/api.md
+          echo "# Transpiler" > book/src/transpiler.md
+          echo "# Architecture" > book/src/architecture.md
+          echo "# Contributing" > book/src/contributing.md
+          
+      - name: Build book
+        run: |
+          cd book
+          mdbook build
+          
+      - name: Upload book artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ellex-book
+          path: book/book/
+          retention-days: 30
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write

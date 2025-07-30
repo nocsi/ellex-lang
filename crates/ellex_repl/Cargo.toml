@@ -1,0 +1,17 @@
+[package]
+name = "ellex_repl"
+version.workspace = true
+authors.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Ellex repl component"
+
+[dependencies]
+ellex_core = { path = "../ellex_core" }
+ellex_parser = { path = "../ellex_parser" }
+rustyline = "14.0"
+serde = { workspace = true, features = ["derive"] }
+serde_json = "1.0"
+anyhow.workspace = true
+dirs = "5.0"

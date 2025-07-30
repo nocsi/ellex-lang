@@ -1,0 +1,18 @@
+[package]
+name = "ellex_api"
+version.workspace = true
+edition = "2021"
+
+[dependencies]
+axum = { version = "0.7", features = ["json"] }
+tokio.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+ellex_core = { path = "../ellex_core" }
+ellex_parser = { path = "../ellex_parser" }
+reqwest = { version = "0.12", features = ["json"] } # For TUI client mode
+anyhow.workspace = true
+inkwell = "0.5"
+ellex_repl = { path = "../ellex_repl" }
+uuid = { version = "1.0", features = ["v4"] }
+chrono = { version = "0.4", features = ["serde"] }
