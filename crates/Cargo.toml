@@ -54,7 +54,7 @@ regex = "1.10"
 
 # Transpiler dependencies
 swc_ecma_ast = "14.0"
-swc_ecma_codegen = "0.146"
+swc_ecma_codegen = "16.0"
 swc_ecma_parser = "22.0"
 swc_common = "0.33"
 wat = "1.0"
