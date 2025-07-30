@@ -140,7 +140,7 @@ jobs:
           Compress-Archive -Path ${{ matrix.name }} -DestinationPath ${{ matrix.name }}.zip
           
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.name }}
           path: |
