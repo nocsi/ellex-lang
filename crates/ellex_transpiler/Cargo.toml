@@ -1,0 +1,27 @@
+[package]
+name = "ellex_transpiler"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+ellex_core = { path = "../ellex_core" }
+ellex_parser = { path = "../ellex_parser" }
+anyhow = "1.0"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+swc_ecma_ast.workspace = true
+swc_ecma_codegen.workspace = true
+swc_ecma_parser.workspace = true
+swc_common.workspace = true
+wat.workspace = true
+walrus.workspace = true
+wasmprinter.workspace = true
+thiserror = "1.0"
+
+[dev-dependencies]
+tokio = { version = "1.0", features = ["full"] }
+criterion = { version = "0.5", features = ["html_reports"] }
+
+[[bench]]
+name = "transpiler_bench"
+harness = false

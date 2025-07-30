@@ -1,0 +1,213 @@
+title: Ellex Language Grammar Structure
+
+# Core Grammar Hierarchy
+direction: down
+
+program: {
+  label: "Program"
+  shape: rectangle
+  style.fill: "#e1f5fe"
+}
+
+statements: {
+  label: "Statements"
+  shape: rectangle
+  style.fill: "#f3e5f5"
+}
+
+program -> statements
+
+# Statement Types
+tell_stmt: {
+  label: "Tell Statement\ntell \"message\"\ntell variable\ntell 42"
+  shape: rectangle
+  style.fill: "#e8f5e8"
+}
+
+ask_stmt: {
+  label: "Ask Statement\nask \"question\" → var\nask \"question\" → var as type"
+  shape: rectangle
+  style.fill: "#e8f5e8"
+}
+
+repeat_stmt: {
+  label: "Repeat Statement\nrepeat N times do\n  statements...\nend"
+  shape: rectangle
+  style.fill: "#e8f5e8"
+}
+
+when_stmt: {
+  label: "When Statement\nwhen var is value do\n  statements...\nend"
+  shape: rectangle
+  style.fill: "#e8f5e8"
+}
+
+make_stmt: {
+  label: "Make Statement\nmake function_name do\n  statements...\nend"
+  shape: rectangle
+  style.fill: "#e8f5e8"
+}
+
+func_call: {
+  label: "Function Call\nfunction_name"
+  shape: rectangle
+  style.fill: "#e8f5e8"
+}
+
+statements -> tell_stmt
+statements -> ask_stmt
+statements -> repeat_stmt
+statements -> when_stmt
+statements -> make_stmt
+statements -> func_call
+
+# Expression Types
+expressions: {
+  label: "Expressions"
+  shape: rectangle
+  style.fill: "#fff3e0"
+}
+
+string_expr: {
+  label: "String\n\"Hello, world!\"\n\"Hello, {name}!\""
+  shape: rectangle
+  style.fill: "#fff8e1"
+}
+
+number_expr: {
+  label: "Number\n42\n3.14159\n-17"
+  shape: rectangle
+  style.fill: "#fff8e1"
+}
+
+list_expr: {
+  label: "List\n[1, 2, 3]\n[\"a\", \"b\", \"c\"]\n[1, \"hello\", 3.14]"
+  shape: rectangle
+  style.fill: "#fff8e1"
+}
+
+variable_expr: {
+  label: "Variable\nname\nage\nuser_input"
+  shape: rectangle
+  style.fill: "#fff8e1"
+}
+
+nil_expr: {
+  label: "Nil\nnil"
+  shape: rectangle
+  style.fill: "#fff8e1"
+}
+
+expressions -> string_expr
+expressions -> number_expr
+expressions -> list_expr
+expressions -> variable_expr
+expressions -> nil_expr
+
+tell_stmt -> expressions
+ask_stmt -> expressions
+
+# Modal Programming
+modal_blocks: {
+  label: "Modal Blocks"
+  shape: rectangle
+  style.fill: "#fce4ec"
+}
+
+listen_mode: {
+  label: "Listen Mode\n@listen do\n  /command\n  around function\nend"
+  shape: rectangle
+  style.fill: "#f8bbd9"
+}
+
+think_mode: {
+  label: "Think Mode\n@think do\n  what does X do?\n  where is Y used?\nend"
+  shape: rectangle
+  style.fill: "#f8bbd9"
+}
+
+build_mode: {
+  label: "Build Mode\n@build do\n  rename X → Y\n  extract 10,20 → func\nend"
+  shape: rectangle
+  style.fill: "#f8bbd9"
+}
+
+teach_mode: {
+  label: "Teach Mode\n@teach do\n  explain loops\n  show examples\nend"
+  shape: rectangle
+  style.fill: "#f8bbd9"
+}
+
+program -> modal_blocks
+modal_blocks -> listen_mode
+modal_blocks -> think_mode
+modal_blocks -> build_mode
+modal_blocks -> teach_mode
+
+# Special Features
+features: {
+  label: "Special Features"
+  shape: rectangle
+  style.fill: "#e0f2f1"
+}
+
+string_interpolation: {
+  label: "String Interpolation\n\"Hello, {name}!\"\n\"You are {age} years old\""
+  shape: rectangle
+  style.fill: "#b2dfdb"
+}
+
+comments: {
+  label: "Comments\n# This is a comment\ntell \"Hello!\" # End comment"
+  shape: rectangle
+  style.fill: "#b2dfdb"
+}
+
+turtle_graphics: {
+  label: "Turtle Graphics\nmove forward 100\nturn right 90\nuse color \"red\""
+  shape: rectangle
+  style.fill: "#b2dfdb"
+}
+
+program -> features
+features -> string_interpolation
+features -> comments
+features -> turtle_graphics
+
+# Legend
+legend: {
+  label: "Grammar Legend"
+  shape: rectangle
+  style.fill: "#f5f5f5"
+  style.stroke-dash: 5
+  
+  core: {
+    label: "Core Structure"
+    style.fill: "#e1f5fe"
+    shape: rectangle
+  }
+  
+  statements: {
+    label: "Statement Types"
+    style.fill: "#e8f5e8"
+    shape: rectangle
+  }
+  
+  expressions: {
+    label: "Expression Types"
+    style.fill: "#fff8e1"
+    shape: rectangle
+  }
+  
+  modal: {
+    label: "Modal Programming"
+    style.fill: "#f8bbd9"
+    shape: rectangle
+  }
+  
+  features: {
+    label: "Special Features"
+    style.fill: "#b2dfdb"
+    shape: rectangle
+  }
+}

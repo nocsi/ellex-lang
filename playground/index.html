@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌿 Ellex Playground</title>
+    <style>
+        :root {
+            --primary-color: #2d7a2d;
+            --secondary-color: #4a4a4a;
+            --background-color: #f5f5f5;
+            --surface-color: #ffffff;
+            --text-color: #333333;
+            --border-color: #ddd;
+            --success-color: #28a745;
+            --error-color: #dc3545;
+            --warning-color: #ffc107;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), #228b22);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+
+        .header p {
+            margin: 0.5rem 0 0 0;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            height: calc(100vh - 120px);
+        }
+
+        .panel {
+            background: var(--surface-color);
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .panel-header {
+            background: var(--secondary-color);
+            color: white;
+            padding: 0.75rem 1rem;
+            font-weight: 500;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .panel-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .code-editor {
+            flex: 1;
+            border: none;
+            resize: none;
+            font-family: inherit;
+            font-size: 14px;
+            padding: 1rem;
+            background: #fafafa;
+            border-radius: 0;
+            line-height: 1.5;
+        }
+
+        .code-editor:focus {
+            outline: none;
+            background: white;
+        }
+
+        .output-area {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            background: #1e1e1e;
+            color: #d4d4d4;
+            font-family: inherit;
+            font-size: 14px;
+        }
+
+        .output-line {
+            margin-bottom: 0.5rem;
+            white-space: pre-wrap;
+        }
+
+        .output-line.input {
+            color: #569cd6;
+        }
+
+        .output-line.output {
+            color: #d4d4d4;
+        }
+
+        .output-line.error {
+            color: #f48771;
+        }
+
+        .output-line.system {
+            color: #608b4e;
+            font-style: italic;
+        }
+
+        .controls {
+            padding: 1rem;
+            background: #f8f9fa;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: var(--secondary-color);
+            color: white;
+        }
+
+        .btn-small {
+            padding: 0.25rem 0.5rem;
+            font-size: 12px;
+        }
+
+        .session-info {
+            background: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 0.5rem;
+            font-size: 12px;
+            margin-bottom: 1rem;
+        }
+
+        .session-info span {
+            margin-right: 1rem;
+        }
+
+        .examples {
+            background: #f8f9fa;
+            border-top: 1px solid var(--border-color);
+            padding: 1rem;
+            font-size: 12px;
+        }
+
+        .examples h4 {
+            margin-bottom: 0.5rem;
+            color: var(--secondary-color);
+        }
+
+        .example-btn {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            padding: 0.25rem 0.5rem;
+            margin: 0.25rem 0.25rem 0.25rem 0;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 11px;
+            transition: all 0.2s;
+        }
+
+        .example-btn:hover {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+                height: auto;
+                padding: 1rem;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🌿 Ellex Playground</h1>
+        <p>Natural language programming for kids - with AI assistance and modal editing</p>
+    </div>
+
+    <div class="container">
+        <div class="panel">
+            <div class="panel-header">
+                <span>Code Editor</span>
+                <div>
+                    <button class="btn btn-small btn-primary" onclick="runCode()">Run (Ctrl+Enter)</button>
+                    <button class="btn btn-small btn-secondary" onclick="clearEditor()">Clear</button>
+                </div>
+            </div>
+            <div class="panel-content">
+                <textarea id="codeEditor" class="code-editor" placeholder="Type your Ellex code here...
+
+Examples:
+tell &quot;Hello, world!&quot;
+ask &quot;What's your name?&quot; → name
+tell &quot;Hello, {name}!&quot;
+repeat 3 times do tell &quot;Hi!&quot; end">tell "Hello, world!"</textarea>
+                <div class="examples">
+                    <h4>Quick Examples:</h4>
+                    <button class="example-btn" onclick="insertExample('tell \"Hello, world!\"')">Hello World</button>
+                    <button class="example-btn" onclick="insertExample('ask \"What\\'s your name?\" → name\ntell \"Hello, {name}!\"')">Interactive Greeting</button>
+                    <button class="example-btn" onclick="insertExample('repeat 5 times do\n    tell \"Counting...\"\nend')">Loop</button>
+                    <button class="example-btn" onclick="insertExample('/help')">Help</button>
+                    <button class="example-btn" onclick="insertExample('/vars')">Show Variables</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-header">
+                <span>Output & REPL</span>
+                <div>
+                    <button class="btn btn-small btn-secondary" onclick="clearOutput()">Clear Output</button>
+                    <button class="btn btn-small btn-secondary" onclick="resetSession()">Reset Session</button>
+                </div>
+            </div>
+            <div class="panel-content">
+                <div class="session-info" id="sessionInfo">
+                    <span>Session: <span id="sessionId">Loading...</span></span>
+                    <span>Executions: <span id="executionCount">0</span></span>
+                    <span>Variables: <span id="variableCount">0</span></span>
+                </div>
+                <div id="output" class="output-area">
+                    <div class="output-line system">🌿 Welcome to Ellex Playground!</div>
+                    <div class="output-line system">Creating session...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class EllexPlayground {
+            constructor() {
+                this.apiBase = 'http://localhost:8080/api/repl';
+                this.sessionId = null;
+                this.executionCount = 0;
+                this.variables = {};
+                this.pendingInputs = new Map(); // For handling ask statements
+
+                this.init();
+            }
+
+            async init() {
+                try {
+                    await this.createSession();
+                    this.updateSessionInfo();
+                    this.setupEventListeners();
+                    this.addOutput('🚀 Ready! Type some Ellex code and press Ctrl+Enter to run.', 'system');
+                } catch (error) {
+                    this.addOutput(`❌ Failed to connect to Ellex API: ${error.message}`, 'error');
+                    this.addOutput('🔧 Make sure the Ellex API server is running on localhost:8080', 'system');
+                }
+            }
+
+            async createSession() {
+                const response = await fetch(`${this.apiBase}/sessions`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        config: {
+                            execution_timeout_ms: 5000,
+                            memory_limit_mb: 64,
+                            enable_turtle: true,
+                            enable_ai: true,
+                            max_recursion_depth: 100,
+                            max_loop_iterations: 10000
+                        }
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                this.sessionId = data.session_id;
+                this.addOutput(`✅ Session created: ${this.sessionId.slice(0, 8)}...`, 'system');
+            }
+
+            async executeCode(code) {
+                if (!this.sessionId) {
+                    this.addOutput('❌ No active session', 'error');
+                    return;
+                }
+
+                try {
+                    this.setLoading(true);
+                    this.addOutput(`> ${code}`, 'input');
+
+                    const response = await fetch(`${this.apiBase}/execute`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            code: code,
+                            session_id: this.sessionId
+                        })
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+
+                    const data = await response.json();
+                    
+                    // Update session state
+                    this.executionCount = data.execution_count;
+                    this.variables = data.variables;
+                    this.updateSessionInfo();
+
+                    // Display output
+                    if (data.output && data.output.length > 0) {
+                        data.output.forEach(line => {
+                            if (line.startsWith('Error:')) {
+                                this.addOutput(line, 'error');
+                            } else if (line.includes('Input requested')) {
+                                this.handleInputRequest(line);
+                            } else {
+                                this.addOutput(line, 'output');
+                            }
+                        });
+                    }
+
+                } catch (error) {
+                    this.addOutput(`❌ Execution error: ${error.message}`, 'error');
+                } finally {
+                    this.setLoading(false);
+                }
+            }
+
+            handleInputRequest(message) {
+                // Extract variable name from "Input requested for variable 'varname'"
+                const match = message.match(/Input requested for variable '(.+)'/);
+                if (match) {
+                    const varName = match[1];
+                    const userInput = prompt(`Please enter a value for '${varName}':`);
+                    if (userInput !== null) {
+                        this.sendInteractiveInput(varName, userInput);
+                    }
+                } else {
+                    this.addOutput(message, 'system');
+                }
+            }
+
+            async sendInteractiveInput(variable, value) {
+                try {
+                    const response = await fetch(`${this.apiBase}/input`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            session_id: this.sessionId,
+                            variable: variable,
+                            value: value
+                        })
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        this.addOutput(data.message, 'system');
+                        this.variables[variable] = value;
+                        this.updateSessionInfo();
+                    }
+                } catch (error) {
+                    this.addOutput(`❌ Failed to send input: ${error.message}`, 'error');
+                }
+            }
+
+            async resetSession() {
+                if (this.sessionId) {
+                    try {
+                        await fetch(`${this.apiBase}/sessions/${this.sessionId}`, {
+                            method: 'DELETE'
+                        });
+                    } catch (error) {
+                        console.warn('Failed to delete old session:', error);
+                    }
+                }
+
+                this.clearOutput();
+                this.executionCount = 0;
+                this.variables = {};
+                await this.createSession();
+                this.updateSessionInfo();
+                this.addOutput('🔄 Session reset successfully!', 'system');
+            }
+
+            setupEventListeners() {
+                const editor = document.getElementById('codeEditor');
+                
+                editor.addEventListener('keydown', (e) => {
+                    if (e.ctrlKey && e.key === 'Enter') {
+                        e.preventDefault();
+                        this.runCode();
+                    }
+                });
+
+                // Tab behavior
+                editor.addEventListener('keydown', (e) => {
+                    if (e.key === 'Tab') {
+                        e.preventDefault();
+                        const start = editor.selectionStart;
+                        const end = editor.selectionEnd;
+                        editor.value = editor.value.substring(0, start) + '    ' + editor.value.substring(end);
+                        editor.selectionStart = editor.selectionEnd = start + 4;
+                    }
+                });
+            }
+
+            runCode() {
+                const code = document.getElementById('codeEditor').value.trim();
+                if (code) {
+                    this.executeCode(code);
+                }
+            }
+
+            addOutput(text, type = 'output') {
+                const outputDiv = document.getElementById('output');
+                const lineDiv = document.createElement('div');
+                lineDiv.className = `output-line ${type}`;
+                lineDiv.textContent = text;
+                outputDiv.appendChild(lineDiv);
+                outputDiv.scrollTop = outputDiv.scrollHeight;
+            }
+
+            clearOutput() {
+                document.getElementById('output').innerHTML = '';
+                this.addOutput('🌿 Output cleared', 'system');
+            }
+
+            clearEditor() {
+                document.getElementById('codeEditor').value = '';
+            }
+
+            insertExample(code) {
+                document.getElementById('codeEditor').value = code;
+            }
+
+            updateSessionInfo() {
+                document.getElementById('sessionId').textContent = 
+                    this.sessionId ? this.sessionId.slice(0, 8) + '...' : 'None';
+                document.getElementById('executionCount').textContent = this.executionCount;
+                document.getElementById('variableCount').textContent = Object.keys(this.variables).length;
+            }
+
+            setLoading(loading) {
+                const container = document.querySelector('.container');
+                if (loading) {
+                    container.classList.add('loading');
+                } else {
+                    container.classList.remove('loading');
+                }
+            }
+        }
+
+        // Global functions for HTML onclick handlers
+        let playground;
+
+        function runCode() {
+            playground.runCode();
+        }
+
+        function clearOutput() {
+            playground.clearOutput();
+        }
+
+        function clearEditor() {
+            playground.clearEditor();
+        }
+
+        function resetSession() {
+            playground.resetSession();
+        }
+
+        function insertExample(code) {
+            playground.insertExample(code);
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            playground = new EllexPlayground();
+        });
+    </script>
+</body>
+</html>

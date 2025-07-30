@@ -1,0 +1,10 @@
+{application,ellex,
+             [{modules,[]},
+              {optional_applications,[]},
+              {applications,[kernel,stdlib,elixir,logger,runtime_tools,
+                             phoenix,phoenix_live_view,jason,websock_adapter,
+                             rustler]},
+              {description,"ellex"},
+              {registered,[]},
+              {vsn,"0.1.0"},
+              {mod,{'Elixir.Ellex.Application',[]}}]}.

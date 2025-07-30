@@ -1,0 +1,22 @@
+{
+  "name": "tsc-benchmark",
+  "version": "1.0.0",
+  "description": "TypeScript compiler benchmarking environment",
+  "dependencies": {
+    "typescript": "^5.3.3",
+    "ts-node": "^10.9.2",
+    "@typescript-eslint/parser": "^6.16.0",
+    "@typescript-eslint/eslint-plugin": "^6.16.0",
+    "clinic": "^13.0.0",
+    "pidusage": "^3.0.2",
+    "pretty-bytes": "^6.1.1",
+    "fast-glob": "^3.3.2",
+    "ttsc": "^1.5.15"
+  },
+  "scripts": {
+    "benchmark": "node /scripts/tsc-runner.js",
+    "profile": "clinic doctor -- node /scripts/tsc-runner.js",
+    "compile": "tsc --build",
+    "compile-incremental": "tsc --build --incremental"
+  }
+}

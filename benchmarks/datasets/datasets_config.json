@@ -1,0 +1,28 @@
+{
+  "small_synthetic": {
+    "name": "small_synthetic",
+    "description": "Small synthetic TypeScript project (10 files, ~500 LOC)",
+    "size_category": "small",
+    "source_type": "synthetic",
+    "parameters": {
+      "num_files": 10,
+      "avg_lines_per_file": 50,
+      "complexity": "simple"
+    },
+    "expected_loc": 500,
+    "cleanup_after_hours": 24
+  },
+  "medium_synthetic": {
+    "name": "medium_synthetic",
+    "description": "Medium synthetic TypeScript project (100 files, ~5K LOC)",
+    "size_category": "medium",
+    "source_type": "synthetic",
+    "parameters": {
+      "num_files": 100,
+      "avg_lines_per_file": 50,
+      "complexity": "medium"
+    },
+    "expected_loc": 5000,
+    "cleanup_after_hours": 24
+  }
+}

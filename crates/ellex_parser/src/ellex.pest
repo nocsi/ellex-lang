@@ -1,0 +1,42 @@
+WHITESPACE = _{ " " | "\t" | "\n" | "\r" }
+COMMENT = _{ "#" ~ (!NEWLINE ~ ANY)* ~ NEWLINE? }
+NEWLINE = _{ "\n" | "\r\n" }
+
+program = { SOI ~ (statement | modal_block | service_block)* ~ EOI }
+
+statement = { repeat_stmt | tell_stmt | ask_stmt | when_stmt | make_stmt | assignment | func_call }
+
+tell_stmt = { "tell" ~ expression }
+ask_stmt = { "ask" ~ expression ~ "→" ~ ident ~ ("as" ~ type_hint)? }
+repeat_stmt = { "repeat" ~ integer ~ "times" ~ "do" ~ statement* ~ "end" }
+when_stmt = { "when" ~ ident ~ ("is" | "matches") ~ expression ~ "do" ~ statement* ~ "end" ~ (when_stmt | otherwise_stmt)* }
+otherwise_stmt = { "otherwise" ~ "do" ~ statement* ~ "end" }
+make_stmt = { "make" ~ ident ~ "do" ~ statement* ~ "end" }
+func_call = { ident }
+assignment = { ident ~ "←" ~ expression }  // Alternative assignment for clarity, if needed
+
+modal_block = { "@" ~ modal_mode ~ "do" ~ modal_content* ~ "end" }
+modal_mode = { "listen" | "think" | "build" | "teach" }  // Added 'teach' per improvement suggestion
+modal_content = { 
+    listen_cmd | think_query | build_cmd
+}
+listen_cmd = { "/" ~ ident | "around" ~ ident }  // e.g., /tell, around function
+think_query = { "what does" ~ ident ~ "do?" | "where is" ~ ident ~ "used?" }
+build_cmd = { "rename" ~ ident ~ "→" ~ ident | "extract" ~ integer ~ "," ~ integer ~ "→" ~ ident }
+
+service_block = { "service" ~ string ~ "do" ~ service_prop* ~ "end" }
+service_prop = { 
+    "image" ~ string | 
+    "port" ~ integer | 
+    "environment" ~ "do" ~ env_pair* ~ "end" | 
+    "health_check" ~ "do" ~ health_prop* ~ "end" 
+}
+env_pair = { ident ~ string }
+health_prop = { "path" ~ string | "interval" ~ integer | "timeout" ~ integer }
+
+expression = { string | integer | ident | list }
+string = { "\"" ~ (!"\"" ~ ANY)* ~ "\"" }
+integer = { ASCII_DIGIT+ }
+ident = { (ASCII_ALPHA | "_") ~ (ASCII_ALPHANUMERIC | "_")* }
+type_hint = { "number" | "string" | "list" }
+list = { "[" ~ expression* ~ "]" }  // Basic list support for patterns
