@@ -53,7 +53,7 @@ tower-http = { version = "0.5", features = ["fs", "trace"] }
 regex = "1.10"
 
 # Transpiler dependencies
-swc_ecma_ast = "0.110"
+swc_ecma_ast = "14.0"
 swc_ecma_codegen = "0.146"
 swc_ecma_parser = "0.141"
 swc_common = "0.33"
