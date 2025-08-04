@@ -40,7 +40,7 @@ pest_derive = "2.7"
 nom = "7.1"
 
 # REPL dependencies
-rustyline = "12.0"
+rustyline = "17.0"
 crossterm = "0.27"
 ratatui = "0.23"
 
