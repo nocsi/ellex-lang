@@ -59,7 +59,7 @@ swc_ecma_parser = "23.0"
 swc_common = "14.0"
 wat = "1.0"
 walrus = "0.23"
-wasmprinter = "0.237"
+wasmprinter = "0.238"
 
 # CLI dependencies
 clap = { version = "4.4", features = ["derive"] }
