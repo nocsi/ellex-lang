@@ -22,6 +22,6 @@
     "codemirror": "^6.0.2",
     "cytoscape": "^3.33.0",
     "sirv-cli": "^2.0.0",
-    "svelte-codemirror-editor": "^1.4.1"
+    "svelte-codemirror-editor": "^2.0.0"
   }
 }
