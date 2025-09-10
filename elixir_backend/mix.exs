@@ -29,7 +29,7 @@ defmodule Ellex.MixProject do
       {:phoenix_live_view, "~> 0.20.0"},
       {:jason, "~> 1.4"},
       {:websock_adapter, "~> 0.5.4"},
-      {:rustler, "~> 0.36.2"}
+      {:rustler, "~> 0.37.1"}
     ]
   end
 
