@@ -58,7 +58,7 @@ swc_ecma_codegen = "18.0"
 swc_ecma_parser = "25.0"
 swc_common = "15.0"
 wat = "1.0"
-walrus = "0.23"
+walrus = "0.24"
 wasmprinter = "0.240"
 
 # CLI dependencies
