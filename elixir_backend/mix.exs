@@ -26,7 +26,7 @@ defmodule Ellex.MixProject do
   defp deps do
     [
       {:phoenix, "~> 1.7.10"},
-      {:phoenix_live_view, "~> 0.20.0"},
+      {:phoenix_live_view, "~> 1.1.17"},
       {:jason, "~> 1.4"},
       {:websock_adapter, "~> 0.5.4"},
       {:rustler, "~> 0.37.1"}
