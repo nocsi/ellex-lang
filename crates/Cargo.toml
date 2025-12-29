@@ -42,7 +42,7 @@ nom = "7.1"
 # REPL dependencies
 rustyline = "17.0"
 crossterm = "0.29"
-ratatui = "0.29"
+ratatui = "0.30"
 
 # Web dependencies
 axum = "0.8"
